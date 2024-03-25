@@ -27,7 +27,7 @@ light_lut_filename="/global/cfs/cdirs/dune/www/data/2x2/simulation/larndsim_data
 light_det_noise_filename="larnd-sim/larndsim/bin/light_noise_2x2_4mod_July2023.npy"
 simulation_properties="larnd-sim/larndsim/simulation_properties/2x2_NuMI_sim.yaml"
 
-simulate_pixels.py 2x2_mod2mod_variation \
+simulate_pixels.py \
     --input_filename "$in_file" \
     --output_filename "$out_dir/$out_file" \
     --detector_properties "$detector_properties" \
