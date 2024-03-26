@@ -9,6 +9,8 @@ module load python/3.11
 python3 -m venv larnd-sim.venv
 source larnd-sim.venv/bin/activate
 pip install --upgrade pip setuptools wheel
+# For validation plots:
+pip install matplotlib awkward
 
 git clone -b MiniRun4.5 https://github.com/DUNE/larnd-sim
 cd larnd-sim

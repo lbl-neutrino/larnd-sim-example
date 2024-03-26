@@ -45,3 +45,13 @@ Once you've got a GPU to yourself, launch the simulation:
 ```
 
 You can override the default input file (i.e. the output from edep-sim) by passing a file on the command line (see the top of `run_larnd_sim.sh`). The output will end up in a timestamped file under `$SCRATCH/larnd-sim-output`.
+
+## Validating the output
+
+You can produce a PDF of validation plots as follows:
+
+```
+./make_plots.sh /path/to/output.hdf5
+```
+
+The PDF file will be produced in the same directory as the HDF5 file.
