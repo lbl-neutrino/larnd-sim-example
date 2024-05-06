@@ -12,7 +12,7 @@ pip install --upgrade pip setuptools wheel
 # For validation plots:
 pip install matplotlib awkward
 
-git clone -b develop https://github.com/DUNE/larnd-sim
+git clone -b nesap-develop https://github.com/DUNE/larnd-sim
 cd larnd-sim
 pip install cupy-cuda11x
 SKIP_CUPY_INSTALL=1 pip install -e .
