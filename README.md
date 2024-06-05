@@ -22,10 +22,13 @@ Then run the installer:
 This will locally clone `larnd-sim` and create a Python virtual environment `larnd-sim.venv` for its dependencies. Since `larnd-sim` is installed with the `-e` option to `pip install`, you don't need to re-run `pip install` after modifying the code.
 
 ## Running
+
 ### Submit the Job
 ``` bash
 sbatch sbatch_run_larnd_sim.sh
 ```
+The `sbatch_run_larnd_sim.sh` script uses the `wrapper_run_larnd_sim.sh` script, which is configured to run the DUNE simulations.
+
 ### Interactively
 It's a good idea to grab a dedicated 80GB GPU:
 
