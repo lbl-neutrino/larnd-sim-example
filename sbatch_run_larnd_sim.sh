@@ -11,8 +11,7 @@
 ##SBATCH --array=0 #1 array
 
 # Set the desired number of files per job
-desired_inputfiles_per_array=200 # 20 tasks ($SLURM_NNODES * $SLURM_NTASKS_PER_NODE) submitted simultaneously per array so 10 submission cycles per array.
-#desired_inputfiles_per_array=100 #12 tasks ($SLURM_NNODES * $SLURM_NTASKS_PER_NODE) submitted simultaneously per array so (104/12 ~ ) 9 submission cycles per array.
+desired_inputfiles_per_array=200 # 20 tasks (N * ntasks-per-node) submitted simultaneously per array so 10 submission cycles per array.
 
 export desired_inputfiles_per_array
 
