@@ -28,6 +28,7 @@ This will locally clone `larnd-sim` and create a Python virtual environment `lar
 sbatch sbatch_run_larnd_sim.sh
 ```
 The `sbatch_run_larnd_sim.sh` script uses the `wrapper_run_larnd_sim.sh` script, which is configured to run the DUNE simulations.
+`DUNE_allfilelist_1000.txt` is a text file containing the full paths of the input files.
 
 ### Interactively
 It's a good idea to grab a dedicated 80GB GPU:
