@@ -21,8 +21,12 @@ Then run the installer:
 
 This will locally clone `larnd-sim` and create a Python virtual environment `larnd-sim.venv` for its dependencies. Since `larnd-sim` is installed with the `-e` option to `pip install`, you don't need to re-run `pip install` after modifying the code.
 
-## Running it
-
+## Running
+### Submit the Job
+``` bash
+sbatch sbatch_run_larnd_sim.sh
+```
+### Interactively
 It's a good idea to grab a dedicated 80GB GPU:
 
 ``` bash
