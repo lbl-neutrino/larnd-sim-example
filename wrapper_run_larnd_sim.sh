@@ -5,8 +5,8 @@ sim_start_time=$(date '+%Y-%m-%d_%H:%M:%S')
 #echo "Sim Start Time: $sim_start_time" >> "$log_filename"
 
 # Read the file list into an array
-#mapfile -t file_names < /pscratch/sd/m/madan12/DUNE/larnd-sim-example/40GB_FailedJob_100.txt
-mapfile -t file_names < /pscratch/sd/m/madan12/DUNE/nesap-develop/DUNE_allfilelist_1000.txt
+mapfile -t file_names < DUNE_allfilelist_1000.txt
+#mapfile -t file_names < /pscratch/sd/m/madan12/DUNE/nesap-develop/DUNE_allfilelist_1000.txt
 
 # Define directories
 export out_dir=$SCRATCH/DUNE/nesap-develop/larnd-sim-output-80GB
@@ -26,11 +26,8 @@ light_lut_filename="/dvs_ro/cfs/cdirs/dune/www/data/2x2/simulation/larndsim_data
 light_det_noise_filename="larnd-sim/larndsim/bin/light_noise_2x2_4mod_July2023.npy"
 simulation_properties="larnd-sim/larndsim/simulation_properties/2x2_NuMI_sim.yaml"
 
-
 # Retrieve the number of files each task should process
-# files_per_job=$((desired_inputfiles_per_array / ($SLURM_NNODES * $SLURM_NTASKS_PER_NODE)))
-
-# To ensures that when divided by the total number of tasks, any remainder would push the division result to the next integer, achieving a ceiling effect.
+# And also ensures when divided by the total number of tasks, any remainder would push the division result to the next integer, achieving a ceiling effect.
 files_per_job=$(((desired_inputfiles_per_array + ($SLURM_NNODES * $SLURM_NTASKS_PER_NODE) - 1) / ($SLURM_NNODES * $SLURM_NTASKS_PER_NODE)))
 
 # Calculate the base index for file processing
