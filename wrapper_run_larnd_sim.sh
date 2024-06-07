@@ -40,6 +40,7 @@ function log_gpu_memory {
     nohup nvidia-smi --query-gpu=memory.total,memory.free,memory.used,gpu_uuid --format=csv --loop-ms=5000 >> "$log_file" 2>&1 &
 }
 
+# The for loop efficiently manages file processing by dynamically calculating file indices and ensuring valid file access within a specified job.
 for ((i=0; i<files_per_job; i++)); do
     file_index=$((base_index + i))
     if [ $file_index -ge ${#file_names[@]} ]; then
