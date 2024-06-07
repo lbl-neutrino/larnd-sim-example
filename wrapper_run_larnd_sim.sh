@@ -29,7 +29,7 @@ simulation_properties="larnd-sim/larndsim/simulation_properties/2x2_NuMI_sim.yam
 # Retrieve the number of files each task should process
 # And also ensures when divided by the total number of tasks, any remainder would push the division result to the next integer, achieving a ceiling effect.
 files_per_job=$(((desired_inputfiles_per_array + ($SLURM_NNODES * $SLURM_NTASKS_PER_NODE) - 1) / ($SLURM_NNODES * $SLURM_NTASKS_PER_NODE)))
-# e.g, files_per_job=$(((200 + (5 * 4) - 1) / (5 * 4))) --> (((200 + 20 - 1) / 20)) --> ((219 / 20)) --> 10
+# e.g, files_per_job=$(((200 + (5 * 4) - 1) / (5 * 4))) --> (((200 + 20 - 1) / 20)) --> ((219 / 20)) --> 10 (10 submission cycles per array)
 
 # Calculate the base index for file processing
 base_index=$((SLURM_ARRAY_TASK_ID * desired_inputfiles_per_array + SLURM_PROCID * files_per_job))
