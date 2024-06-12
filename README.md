@@ -27,7 +27,9 @@ This will locally clone `larnd-sim` and create a Python virtual environment `lar
 ``` bash
 sbatch sbatch_run_larnd_sim.sh
 ```
-The `sbatch_run_larnd_sim.sh` script uses the `wrapper_run_larnd_sim.sh` script, which is configured to run the DUNE simulations.
+The `sbatch_run_larnd_sim.sh` script uses the `wrapper_run_larnd_sim.sh` script or `wrapper_run_larnd_sim-m2m.sh` for `2x2_mod2mod_variation` mode, 
+which is configured to run the DUNE simulations.
+
 `DUNE_allfilelist_1000.txt` is a text file containing the full paths of the input files.
 
 ### Interactively
@@ -66,3 +68,5 @@ The PDF file will be produced in the same directory as the HDF5 file.
 
 ## Analysis (NESAP)
 Jupyter notebook `Analysis.ipynb` in the 'plots' folder performs analysis and generates visualizations stored in the same folder
+
+Jupyter notebook `Analysis.ipynb` in the 'plots_m2m' folder performs analysis and generates visualizations stored in the same folder for 2x2_mod2mod_variation
