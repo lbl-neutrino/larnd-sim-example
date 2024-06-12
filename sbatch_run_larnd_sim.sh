@@ -19,4 +19,5 @@ export desired_inputfiles_per_array
 total_tasks=$(($SLURM_NNODES * $SLURM_NTASKS_PER_NODE))
 
 # Run the simulations across nodes and GPUs
-srun --ntasks=$total_tasks --kill-on-bad-exit=0 --cpu_bind=cores ./wrapper_run_larnd_sim.sh
+#srun --ntasks=$total_tasks --kill-on-bad-exit=0 --cpu_bind=cores ./wrapper_run_larnd_sim.sh
+srun --ntasks=$total_tasks --kill-on-bad-exit=0 --cpu_bind=cores ./wrapper_run_larnd_sim-m2m.sh
