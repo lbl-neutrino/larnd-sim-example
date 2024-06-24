@@ -1,0 +1,11 @@
+/dvs_ro/cfs/cdirs/dune/www/data/2x2/simulation/productions/MiniRun5_1E19_RHC/MiniRun5_1E19_RHC.convert2h5/EDEPSIM_H5/0000000/MiniRun5_1E19_RHC.convert2h5.0000000.EDEPSIM.hdf5
+/dvs_ro/cfs/cdirs/dune/www/data/2x2/simulation/productions/MiniRun5_1E19_RHC/MiniRun5_1E19_RHC.convert2h5/EDEPSIM_H5/0000000/MiniRun5_1E19_RHC.convert2h5.0000098.EDEPSIM.hdf5
+/dvs_ro/cfs/cdirs/dune/www/data/2x2/simulation/productions/MiniRun5_1E19_RHC/MiniRun5_1E19_RHC.convert2h5/EDEPSIM_H5/0000000/MiniRun5_1E19_RHC.convert2h5.0000195.EDEPSIM.hdf5
+/dvs_ro/cfs/cdirs/dune/www/data/2x2/simulation/productions/MiniRun5_1E19_RHC/MiniRun5_1E19_RHC.convert2h5/EDEPSIM_H5/0000000/MiniRun5_1E19_RHC.convert2h5.0000241.EDEPSIM.hdf5
+/dvs_ro/cfs/cdirs/dune/www/data/2x2/simulation/productions/MiniRun5_1E19_RHC/MiniRun5_1E19_RHC.convert2h5/EDEPSIM_H5/0000000/MiniRun5_1E19_RHC.convert2h5.0000380.EDEPSIM.hdf5
+/dvs_ro/cfs/cdirs/dune/www/data/2x2/simulation/productions/MiniRun5_1E19_RHC/MiniRun5_1E19_RHC.convert2h5/EDEPSIM_H5/0000000/MiniRun5_1E19_RHC.convert2h5.0000481.EDEPSIM.hdf5
+/dvs_ro/cfs/cdirs/dune/www/data/2x2/simulation/productions/MiniRun5_1E19_RHC/MiniRun5_1E19_RHC.convert2h5/EDEPSIM_H5/0000000/MiniRun5_1E19_RHC.convert2h5.0000692.EDEPSIM.hdf5
+/dvs_ro/cfs/cdirs/dune/www/data/2x2/simulation/productions/MiniRun5_1E19_RHC/MiniRun5_1E19_RHC.convert2h5/EDEPSIM_H5/0000000/MiniRun5_1E19_RHC.convert2h5.0000733.EDEPSIM.hdf5
+/dvs_ro/cfs/cdirs/dune/www/data/2x2/simulation/productions/MiniRun5_1E19_RHC/MiniRun5_1E19_RHC.convert2h5/EDEPSIM_H5/0000000/MiniRun5_1E19_RHC.convert2h5.0000894.EDEPSIM.hdf5
+/dvs_ro/cfs/cdirs/dune/www/data/2x2/simulation/productions/MiniRun5_1E19_RHC/MiniRun5_1E19_RHC.convert2h5/EDEPSIM_H5/0000000/MiniRun5_1E19_RHC.convert2h5.0000995.EDEPSIM.hdf5
+
