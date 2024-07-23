@@ -135,7 +135,7 @@ def main(sim_file):
     
             event_IDs = []
             eventID = segments['event_id'] # eventIDs associated to each segment
-            segment_id_assn = mc_packets_assn['track_ids'] # segment indices corresponding to each packet
+            segment_id_assn = mc_packets_assn['segment_ids'] # segment indices corresponding to each packet
 
             # Loop over each packet
             for ip, packet in enumerate(event_packets):
@@ -248,45 +248,34 @@ def main(sim_file):
         THRESHOLD = 50 # change this if you want to exclude events from noise analysis
         SAMPLE_RATE = 6.25e7
         ## SEPARATE WAVEFORMS FROM LCM AND ACL
-        larray_geom = np.array([1,1,1,1,1,1,0,0,0,0,0,0]*8)
+        larray_geom = np.array([1,1,1,1,1,1,0,0,0,0,0,0]*8*4)
         lcm_events = [light_wvfm[i][larray_geom==1] for i in range(NUM_LIGHT_EVENTS)]/BIT
         acl_events = [light_wvfm[i][larray_geom!=1] for i in range(NUM_LIGHT_EVENTS)]/BIT
         lcm_wvfms = ak.flatten(lcm_events, axis=1)
         acl_wvfms = ak.flatten(acl_events, axis=1)
         
         def noise_datasets(no_ped_adc,CUTOFF):
-            adc_signal_indices=[]
-            for i in range(len(no_ped_adc)):
-                if max(abs(no_ped_adc[i]))>THRESHOLD:
-                    adc_signal_indices.append(i)
-                else:
-                    pass
-            adc_normal_pretrig = []
-            for i in adc_signal_indices:
-                waveform = no_ped_adc[i][0:PRE_NOISE]
-                adc_normal_pretrig.append(np.array(waveform))
-                if len(adc_normal_pretrig)>3000:
-                    break
+            max_abs_values=np.max(np.abs(no_ped_adc), axis=1)
+            mask = max_abs_values > THRESHOLD
+            adc_signal_indices= np.flatnonzero(mask)
+            adc_normal_pretrig=no_ped_adc[adc_signal_indices,0:PRE_NOISE]
             adc_normal_pretrig = np.array(adc_normal_pretrig[0:3000])
-            ns_wvfms = []
-            for wave in adc_normal_pretrig:
-                norm = max(abs(wave))
-                ns_wvfms.append(wave/norm)
+            norms=np.max(np.abs(adc_normal_pretrig), axis=1)
+            norms_big=np.expand_dims(norms, axis=1)
+            ns_wvfms=np.divide(adc_normal_pretrig,norms_big)
             # Calculate power spectra using FFT
             freqs = np.fft.fftfreq(PRE_NOISE, 1/SAMPLE_RATE)
             freqs = freqs[:PRE_NOISE//2] # keep only positive frequencies
             freq_matrix = np.tile(np.array(freqs), (len(adc_normal_pretrig),1))
             frequencies = np.ndarray.flatten(np.array(freq_matrix))
-            psds = []
-            for wave in ns_wvfms:
-                spectrum = np.fft.fft(wave)
-                psd = np.abs(spectrum[:PRE_NOISE//2])**2 / (PRE_NOISE * SAMPLE_RATE)
-                psd[1:] *= 2 # double the power except for the DC component
-                psds.append(psd)
+            spectrum_arr=np.fft.fft(ns_wvfms, axis=1)
+            psds= np.abs(spectrum_arr[:,:PRE_NOISE//2])**2 / (PRE_NOISE * SAMPLE_RATE)
+            psds[:,1:] *=2 #Double the power except for the DC component
             ref = 1 #(everything is in integers?)
             power = np.ndarray.flatten(np.array(psds))
             p_dbfs = 20 * np.log10(power/ref)
             return adc_signal_indices, frequencies, adc_normal_pretrig, p_dbfs
+
         
         def power_hist_maxes(adc_dataset):
             adc_freq = adc_dataset[1]
@@ -418,26 +407,25 @@ def main(sim_file):
         l_mod4_8R = np.zeros((24,SAMPLES)) 
         ## SORT THE LIGHT DATA BY MODULE, TPC, and SIDE
         for j in spill_light:
-            if (opt_chan[j][0]) == 0:
-                l_mod1_1L = np.add(l_mod1_1L,light_wvfm[j][0:24])
-                l_mod1_1R = np.add(l_mod1_1R,light_wvfm[j][24:48])
-                l_mod1_2R = np.add(l_mod1_2R,light_wvfm[j][48:72])
-                l_mod1_2L = np.add(l_mod1_2L,light_wvfm[j][72:96])
-            if opt_chan[j][0]==96:
-                l_mod2_3L = np.add(l_mod2_3L,light_wvfm[j][0:24])
-                l_mod2_3R = np.add(l_mod2_3R,light_wvfm[j][24:48])
-                l_mod2_4R = np.add(l_mod2_4R,light_wvfm[j][48:72])
-                l_mod2_4L = np.add(l_mod2_4L,light_wvfm[j][72:96])
-            if opt_chan[j][0]==192:
-                l_mod3_5L = np.add(l_mod3_5L,np.array(light_wvfm[j][0:24]))
-                l_mod3_5R = np.add(l_mod3_5R,np.array(light_wvfm[j][24:48]))
-                l_mod3_6R = np.add(l_mod3_6R,np.array(light_wvfm[j][48:72]))
-                l_mod3_6L = np.add(l_mod3_6L,np.array(light_wvfm[j][72:96]))
-            if opt_chan[j][0] == 288:
-                l_mod4_7L = np.add(l_mod4_7L,np.array(light_wvfm[j][0:24]))
-                l_mod4_7R = np.add(l_mod4_7R,np.array(light_wvfm[j][24:48]))
-                l_mod4_8R = np.add(l_mod4_8R,np.array(light_wvfm[j][48:72]))
-                l_mod4_8L = np.add(l_mod4_8L,np.array(light_wvfm[j][72:96]))
+            l_mod1_2L = np.add(l_mod1_2L,light_wvfm[j][0:24])
+            l_mod1_2R = np.add(l_mod1_2R,light_wvfm[j][24:48])
+            l_mod1_1R = np.add(l_mod1_1R,light_wvfm[j][48:72])
+            l_mod1_1L = np.add(l_mod1_1L,light_wvfm[j][72:96])
+
+            l_mod2_4L = np.add(l_mod2_4L,light_wvfm[j][96:120])
+            l_mod2_4R = np.add(l_mod2_4R,light_wvfm[j][120:144])
+            l_mod2_3R = np.add(l_mod2_3R,light_wvfm[j][144:168])
+            l_mod2_3L = np.add(l_mod2_3L,light_wvfm[j][168:192])
+
+            l_mod3_6L = np.add(l_mod3_6L,np.array(light_wvfm[j][192:216]))
+            l_mod3_6R = np.add(l_mod3_6R,np.array(light_wvfm[j][216:240]))
+            l_mod3_5R = np.add(l_mod3_5R,np.array(light_wvfm[j][240:264]))
+            l_mod3_5L = np.add(l_mod3_5L,np.array(light_wvfm[j][264:288])) 
+
+            l_mod4_8L = np.add(l_mod4_8L,np.array(light_wvfm[j][288:312]))
+            l_mod4_8R = np.add(l_mod4_8R,np.array(light_wvfm[j][312:336]))
+            l_mod4_7R = np.add(l_mod4_7R,np.array(light_wvfm[j][336:360]))
+            l_mod4_7L = np.add(l_mod4_7L,np.array(light_wvfm[j][360:384]))
 
         def assign_io(x_pos, z_pos):
             if z_pos > 0:
@@ -497,7 +485,7 @@ def main(sim_file):
                         axs4.plot(X,Y,c=colors[ios.index(io_second)],alpha=1,lw=1.5)
                     else:
                         pass
-            ## LABEL THE LIGHT PLOTS
+            ## LABEL THE LIGHT PLOTS                            
             axs0[0].set_title("Left:\nio_group "+str(io_first))
             axs2[0].set_title("Right:\nio_group "+str(io_first))
             axs3[0].set_title("Left:\nio_group "+str(io_second))
