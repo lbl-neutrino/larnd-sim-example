@@ -15,7 +15,8 @@ sim_start_time=$(date '+%Y-%m-%d_%H:%M:%S')
 mapfile -t file_names < /global/cfs/cdirs/dune/users/madan12/DUNE_nesap/nesap-develop-benchmark/DUNE_allfilelist_1000.txt
 
 # Define directories for output
-export out_dir=/global/cfs/cdirs/dune/users/madan12/DUNE_nesap/pre-post-hackathon/larnd-sim-output-80GB
+export out_dir=/global/cfs/cdirs/dune/users/madan12/DUNE_nesap/pre-post-hackathon/larnd-sim-output-80GB-develop
+#export out_dir=/global/cfs/cdirs/dune/users/madan12/DUNE_nesap/pre-post-hackathon/larnd-sim-output-80GB-post-hackathon2024
 mkdir -p "$out_dir"
 
 # Retrieve the number of files each task should process
@@ -24,11 +25,13 @@ files_per_job=$(((desired_inputfiles_per_array + ($SLURM_NNODES * $SLURM_NTASKS_
 # Calculate the base index for file processing
 base_index=$((SLURM_ARRAY_TASK_ID * desired_inputfiles_per_array + SLURM_PROCID * files_per_job))
 
-# Function to log GPU memory information
+# Function to log GPU memory information to a separate file
 function log_gpu_memory {
     log_file=$1
-    echo "GPU and Memory Info:" >> "$log_file"
-    nohup nvidia-smi --query-gpu=memory.total,memory.free,memory.used,gpu_uuid --format=csv --loop-ms=5000 >> "$log_file" 2>&1 &
+    gpu_mem_log="${log_file%.log}.gpu_mem.log"
+    echo "GPU and Memory Info:" > "$gpu_mem_log"
+    nohup nvidia-smi --query-gpu=memory.total,memory.free,memory.used,gpu_uuid --format=csv --loop-ms=5000 >> "$gpu_mem_log" 2>&1 &
+    echo $!  # Return the PID of the nohup process
 }
 
 # Loop through the files to process
@@ -54,22 +57,23 @@ for ((i=0; i<files_per_job; i++)); do
 
     echo "Processing file: $input_filename, Simulation #$i, Sim Start Time: $sim_start_time, Task Start Time: $timestamp, Random Seed: $rand_seed, Host Name: $host_name, File index: $file_index, Job ID: ${SLURM_JOB_ID}, Log File: $log_filename, Output File: $output_filename" | tee -a "$log_filename"
 
-    # Log GPU memory before the simulation
-    log_gpu_memory "$log_filename"
+    # Log GPU memory before the simulation to a separate file
+    gpu_mem_pid=$(log_gpu_memory "$log_filename")
 
+    # Get configuration or use default
     default_config=2x2
     config=${LARNDSIM_CONFIG:-$default_config}
 
     # Run the simulation
-    # simulate_pixels.py \
-    #     2x2_mod2mod_variation \
     simulate_pixels.py "$config" \
         --input_filename "$input_filename" \
         --output_filename "$output_filename" \
         --rand_seed $rand_seed 2>&1 | tee -a "$log_filename"
 
+    # Kill the GPU memory logger after simulation
+    kill $gpu_mem_pid
+
     # Capture end time at the script's conclusion
     end_time=$(date '+%Y-%m-%d %H:%M:%S')
     echo "End Time: $end_time" >> "$log_filename"
-
 done
