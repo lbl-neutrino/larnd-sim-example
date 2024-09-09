@@ -24,12 +24,9 @@ This will locally clone `larnd-sim` and create a Python virtual environment `lar
 ## Running
 
 ### Submit the Job
+Submit the job using a specific branch name
 ``` bash
-sbatch sbatch_run_larndsim_2x2.sh
-```
-If you want to use a specific branch at run
-``` bash
-sbatch --export=branch_name=post-hackathon2024 sbatch_run_larndsim_2x2.sh
+sbatch sbatch_run_larndsim_2x2.sh develop
 ```
 The `sbatch_run_larnd_sim.sh` script uses the `wrapper_run_larndsim_2x2.sh` script or `wrapper_run_larnd_sim-m2m.sh` for `2x2_mod2mod_variation` mode, 
 which is configured to run the DUNE simulations.
