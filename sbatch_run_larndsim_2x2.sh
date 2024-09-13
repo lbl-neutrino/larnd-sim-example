@@ -4,7 +4,7 @@
 #SBATCH -q regular # debug, regular
 #SBATCH -J dune_sim_80GB
 #SBATCH -A dune
-#SBATCH -t 04:30:00 # 04:30:00, 00:29:00
+#SBATCH -t 06:00:00 # 04:30:00, 00:29:00
 #SBATCH --ntasks-per-node=4
 #SBATCH --gpus-per-task=1
 #SBATCH --array=0-4
