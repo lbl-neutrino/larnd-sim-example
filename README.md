@@ -68,6 +68,6 @@ You can produce a PDF of validation plots as follows:
 The PDF file will be produced in the same directory as the HDF5 file.
 
 ## Analysis (NESAP)
-Jupyter notebook `Analysis.ipynb` in the `plots` folder performs analysis and generates visualizations stored in the same folder
+Jupyter notebook `Analysis_develop.ipynb` in the `develop` folder performs analysis and generates the plots in the same directory
 
-Jupyter notebook `Analysis.ipynb` in the `plots_m2m` folder performs analysis and generates visualizations stored in the same folder for 2x2_mod2mod_variation
+Jupyter notebook `Analysis_post_hackathon24.ipynb` in the `post_hackathon2024` folder performs analysis and generates the plots in the same directory 
