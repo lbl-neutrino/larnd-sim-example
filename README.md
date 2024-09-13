@@ -28,7 +28,7 @@ Submit the job using a specific branch name
 ``` bash
 sbatch sbatch_run_larndsim_2x2.sh develop
 ```
-The `sbatch_run_larnd_sim.sh` script uses the `wrapper_run_larndsim_2x2.sh` script or `wrapper_run_larnd_sim-m2m.sh` for `2x2_mod2mod_variation` mode, 
+The `sbatch_run_larnd_sim.sh` script uses the `wrapper_run_larndsim_2x2.sh` script for `2x2 module variation` mode, 
 which is configured to run the DUNE simulations.
 
 `DUNE_allfilelist_1000.txt` is a text file containing the full paths of the input files.
