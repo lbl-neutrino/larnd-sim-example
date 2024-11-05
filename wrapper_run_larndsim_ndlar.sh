@@ -14,8 +14,8 @@ source /mscratch/sd/m/madan12/DUNE_sim/CUDA12p4/larnd-sim-example/larnd-sim.cuda
 sim_start_time=$(date '+%Y-%m-%d_%H:%M:%S')
 
 # Read the file list into an array
-#mapfile -t file_names < /mscratch/sd/m/madan12/DUNE_sim/CUDA12p4/larnd-sim-example/DUNE_allfilelist_1000.txt
-mapfile -t file_names < /mscratch/sd/m/madan12/DUNE_sim/CUDA12p4/larnd-sim-example/DUNE_allfilelist_ndlar_124.txt
+# mapfile -t file_names < /mscratch/sd/m/madan12/DUNE_sim/CUDA12p4/larnd-sim-example/DUNE_allfilelist_ndlar_124.txt
+mapfile -t file_names < DUNE_allfilelist_ndlar_124.txt
 
 # Define directories for output
 #export out_dir=/mscratch/sd/m/madan12/DUNE_sim/CUDA12p4/larnd-sim-output-80GB-develop-ndlar
