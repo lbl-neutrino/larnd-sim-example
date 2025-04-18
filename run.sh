@@ -5,7 +5,7 @@ source setup.inc.sh
 source "$venv_name/bin/activate"
 
 nsys=/global/common/software/dune/mkramer/misc_software/nsight-systems-2023.4.1/bin/nsys
-ncu=/global/common/software/dune/mkramer/misc_software/NVIDIA-Nsight-Compute-2024.1/ncu
+ncu=/global/common/software/dune/mkramer/misc_software/NVIDIA-Nsight-Compute-2024.3/ncu
 
 now=$(date -u +%Y%m%dT%H%M%SZ)
 
