@@ -22,7 +22,7 @@ mkdir -p "$out_dir"
 # Prevent errors when multiple larnd-sims try to read the same input
 export HDF5_USE_FILE_LOCKING=0
 
-simulate_pixels.py "$config" \
+python3 larnd-sim/cli/simulate_pixels.py "$config" \
     --input_filename "$in_file" \
     --output_filename "$out_dir/$out_file" \
     --rand_seed 321 "${extra_args[@]}"
