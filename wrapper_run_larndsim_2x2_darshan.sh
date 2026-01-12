@@ -8,23 +8,22 @@ export LARNDSIM_MAX_EVENTS=20
 # module unload python cudatoolkit 2>/dev/null
 # module load cudatoolkit/11.7
 # module load python/3.11
-source /pscratch/sd/m/madan12/DUNE/darshan_try/larnd-sim-example/setup.inc.sh
+source setup.inc.sh
 
 # Activate the existing virtual environment
-source /pscratch/sd/m/madan12/DUNE/darshan_try/larnd-sim-example/larnd-sim.cuda12.venv/bin/activate
+source "$venv_name/bin/activate"
 
 # Set up simulation start time
 sim_start_time=$(date '+%Y-%m-%d_%H:%M:%S')
 
 # Read the file list into an array
-mapfile -t file_names < /pscratch/sd/m/madan12/DUNE/darshan_try/larnd-sim-example/DUNE_2x2filelist_4.txt
+mapfile -t file_names < DUNE_2x2filelist_4.txt
 
 # export batchsize
 export LARNDSIM_PIXEL_BATCH_SIZE="3200" # Or "800", "1600", "2400", "3200"
 
 # Define directories for output
-export out_dir=/pscratch/sd/m/madan12/DUNE/darshan_try/larnd-sim-example/output_2x2_benchmark_darshan
-#export out_dir="/pscratch/sd/m/madan12/DUNE/pixel_sub_batching/output_pixel_subbatching_FSD_${LARNDSIM_PIXEL_BATCH_SIZE}bs"
+export out_dir=output_2x2_benchmark_darshan
 mkdir -p "$out_dir"
 
 # Retrieve the number of files each task should process
