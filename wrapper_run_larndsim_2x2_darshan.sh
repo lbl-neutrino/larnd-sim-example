@@ -2,7 +2,7 @@
 
 # Export the environment variable
 export LARNDSIM_DISABLE_CUPY_MEMPOOL=1
-export LARNDSIM_MAX_EVENTS=20
+# export LARNDSIM_MAX_EVENTS=20
 
 # Load necessary modules and activate the virtual environment
 # module unload python cudatoolkit 2>/dev/null
