@@ -77,6 +77,63 @@ You can also produce a PDF of validation plots as follows:
 
 The PDF file will be produced in the same directory as the HDF5 file.
 
+
+## I/O Optimization (Darshan and Drishti findings)
+
+### Running I/O Optimization with Darshan (Interactively)
+
+If you want to run the darshan-instrumented script `larnd-sim_darshan.sh`, you can use the following steps (example interactive allocation, set a couple of environment variables, then run the script):
+
+``` bash
+alloc -A dune -q interactive -C 'gpu&hbm80g' -t 60
+
+export LARNDSIM_DISABLE_CUPY_MEMPOOL=1
+export LARNDSIM_MAX_EVENTS=5
+
+./larnd-sim_darshan.sh
+```
+
+The output file will show up in `$SCRATCH/larnd-sim-output`.
+
+If you're running on the sran system (batch) the repository includes two helper scripts for a Darshan-instrumented run:
+
+- `sbatch_run_larndsim_2x2_darshan.sh`
+- `wrapper_run_larndsim_2x2_darshan.sh`
+
+For reference, see the Darshan and Drishti documentation at NERSC:
+
+- Darshan: [https://docs.nersc.gov/tools/performance/darshan/](https://docs.nersc.gov/tools/performance/darshan/)
+- Drishti: [https://docs.nersc.gov/tools/performance/darshan/drishti/](https://docs.nersc.gov/tools/performance/darshan/drishti/)
+
+Submit the job with the sbatch helper. For example:
+
+``` bash
+sbatch sbatch_run_larndsim_2x2_sc25_darshan.sh develop
+```
+
+Once the job completes you can post-process the Darshan logs and produce PDFs and Drishti input using the provided helper scripts. Examples:
+
+### 1) generate list / per-logfile PDFs
+#### single logfiles
+``` bash
+./process_darshan_python3_logs.sh <JobID> /pscratch/darshanlogs/yyyy/mm/dd
+# e.g:
+./process_darshan_python3_perlog_pdf.sh 47496052 /pscratch/darshanlogs/2026/1/7
+```
+
+#### merged logfile
+``` bash
+./process_darshan_python3_logs_mergedPDF.sh <JobID> /pscratch/darshanlogs/yyyy/mm/dd
+```
+
+### 2) run drishti using the list produced above
+``` bash
+./run_drishti_from_list.sh /pscratch/path/to/your/workdir/python3_logs_JOBID.list
+```
+
+Make sure the processing scripts are executable and that the paths (e.g. `/pscratch/...`) match your system and log locations.
+
+
 ## Running miniapps
 
 The `hackathon2024` branch of larnd-sim includes miniapps for three of the most demanding kernels in the simulation; see `larnd-sim/miniapps`.
@@ -136,57 +193,3 @@ The output (an `nsys-rep` file) can be opened with `nsys-ui` from Nsight Systems
 
 The output (an `ncu-rep` file) can be opened with `ncu-ui` from Nsight Compute 2024.1.
 
-## I/O Optimization (Darshan and Drishti findings)
-
-### Running I/O Optimization with Darshan (Interactively)
-
-If you want to run the darshan-instrumented script `larnd-sim_darshan.sh`, you can use the following steps (example interactive allocation, set a couple of environment variables, then run the script):
-
-``` bash
-alloc -A dune -q interactive -C 'gpu&hbm80g' -t 60
-
-export LARNDSIM_DISABLE_CUPY_MEMPOOL=1
-export LARNDSIM_MAX_EVENTS=5
-
-./larnd-sim_darshan.sh
-```
-
-The output file will show up in `$SCRATCH/larnd-sim-output`.
-
-If you're running on the sran system (batch) the repository includes two helper scripts for a Darshan-instrumented run:
-
-- `sbatch_run_larndsim_2x2_darshan.sh`
-- `wrapper_run_larndsim_2x2_darshan.sh`
-
-For reference, see the Darshan and Drishti documentation at NERSC:
-
-- Darshan: [https://docs.nersc.gov/tools/performance/darshan/](https://docs.nersc.gov/tools/performance/darshan/)
-- Drishti: [https://docs.nersc.gov/tools/performance/darshan/drishti/](https://docs.nersc.gov/tools/performance/darshan/drishti/)
-
-Submit the job with the sbatch helper. For example:
-
-``` bash
-sbatch sbatch_run_larndsim_2x2_sc25_darshan.sh develop
-```
-
-Once the job completes you can post-process the Darshan logs and produce PDFs and Drishti input using the provided helper scripts. Examples:
-
-### 1) generate list / per-logfile PDFs
-#### single logfiles
-``` bash
-./process_darshan_python3_logs.sh <JobID> /pscratch/darshanlogs/yyyy/mm/dd
-# e.g:
-./process_darshan_python3_perlog_pdf.sh 47496052 /pscratch/darshanlogs/2026/1/7
-```
-
-#### merged logfile
-``` bash
-./process_darshan_python3_logs_mergedPDF.sh <JobID> /pscratch/darshanlogs/yyyy/mm/dd
-```
-
-### 2) run drishti using the list produced above
-``` bash
-./run_drishti_from_list.sh /pscratch/path/to/your/workdir/python3_logs_JOBID.list
-```
-
-Make sure the processing scripts are executable and that the paths (e.g. `/pscratch/...`) match your system and log locations.
