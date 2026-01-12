@@ -100,6 +100,42 @@ This kernel takes up some 50% of the runtime in a nominal simulation.
 ./run.sh larnd-sim/miniapps/calc_light_det_response.py
 ```
 
+Performance baseline: 940 ms
+
+### `get_adc_values`
+
+This one takes up about 25%.
+
+``` bash
+./run.sh larnd-sim/miniapps/get_adc_values.py
+```
+
+Performance baseline: 490 ms
+
+### `tracks_current_mc`
+
+This one's about 10%. (Note: The miniapp is running faster than expected. Need to verify that inputs are representative of the full simulation.)
+
+``` bash
+./run.sh larnd-sim/miniapps/tracks_current_mc.py
+```
+
+Performance baseline: 5 ms (not to be trusted)
+
+## Using the profiling output
+
+After setting the `LARNDSIM_PROFILER` environment variable to `nsys` or `ncu` and running the simulation (or a miniapp), the profiling output will be available in `$SCRATCH/larnd-sim-output/nsys`. This output can be copied to your machine and inspected in the appropriate GUI, as follows:
+
+### Nsight Systems
+
+The output (an `nsys-rep` file) can be opened with `nsys-ui` from Nsight Systems 2023.4.1:
+
+![NSight Systems screenshot](assets/nsight_systems.png)
+
+### Nsight Compute
+
+The output (an `ncu-rep` file) can be opened with `ncu-ui` from Nsight Compute 2024.1.
+
 ## I/O Optimization (Darshan and Drishti findings)
 
 ### Running I/O Optimization with Darshan (Interactively)
@@ -154,40 +190,3 @@ Once the job completes you can post-process the Darshan logs and produce PDFs an
 ```
 
 Make sure the processing scripts are executable and that the paths (e.g. `/pscratch/...`) match your system and log locations.
-
-
-Performance baseline: 940 ms
-
-### `get_adc_values`
-
-This one takes up about 25%.
-
-``` bash
-./run.sh larnd-sim/miniapps/get_adc_values.py
-```
-
-Performance baseline: 490 ms
-
-### `tracks_current_mc`
-
-This one's about 10%. (Note: The miniapp is running faster than expected. Need to verify that inputs are representative of the full simulation.)
-
-``` bash
-./run.sh larnd-sim/miniapps/tracks_current_mc.py
-```
-
-Performance baseline: 5 ms (not to be trusted)
-
-## Using the profiling output
-
-After setting the `LARNDSIM_PROFILER` environment variable to `nsys` or `ncu` and running the simulation (or a miniapp), the profiling output will be available in `$SCRATCH/larnd-sim-output/nsys`. This output can be copied to your machine and inspected in the appropriate GUI, as follows:
-
-### Nsight Systems
-
-The output (an `nsys-rep` file) can be opened with `nsys-ui` from Nsight Systems 2023.4.1:
-
-![NSight Systems screenshot](assets/nsight_systems.png)
-
-### Nsight Compute
-
-The output (an `ncu-rep` file) can be opened with `ncu-ui` from Nsight Compute 2024.1.
