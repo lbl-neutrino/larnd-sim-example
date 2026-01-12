@@ -7,10 +7,10 @@ set -euo pipefail
 # export LARNDSIM_MAX_EVENTS=10
 
 # Load necessary modules and activate the virtual environment
-source /pscratch/sd/m/madan12/DUNE/for_SC25/larnd-sim-example/setup.inc.sh
+source setup.inc.sh
 
 # Activate the existing virtual environment
-source /pscratch/sd/m/madan12/DUNE/for_SC25/larnd-sim-example/larnd-sim.cuda12.venv/bin/activate
+source "$venv_name/bin/activate"
 
 # default_in_file="/global/cfs/cdirs/dune/www/data/2x2/simulation/productions/MiniRun5_1E19_RHC/MiniRun5_1E19_RHC.convert2h5/EDEPSIM_H5/0000000/MiniRun5_1E19_RHC.convert2h5.0000123.EDEPSIM.hdf5"
 # default_config="2x2"
