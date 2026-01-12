@@ -23,7 +23,7 @@ export desired_inputfiles_per_array
 
 # Your existing workflow knobs
 export LARNDSIM_DISABLE_CUPY_MEMPOOL=1
-export LARNDSIM_MAX_EVENTS=20
+# export LARNDSIM_MAX_EVENTS=20
 
 # Optional: enable only for short tests (extra overhead)
 # export DXT_ENABLE_IO_TRACE=1
