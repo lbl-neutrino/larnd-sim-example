@@ -116,7 +116,7 @@ Once the job completes you can post-process the Darshan logs and produce PDFs an
 ### 1) generate list / per-logfile PDFs
 #### single logfiles
 ``` bash
-./process_darshan_python3_logs.sh <JobID> /pscratch/darshanlogs/yyyy/mm/dd
+./process_darshan_python3_perlog_pdf.sh <JobID> /pscratch/darshanlogs/yyyy/mm/dd
 # e.g:
 ./process_darshan_python3_perlog_pdf.sh 47496052 /pscratch/darshanlogs/2026/1/7
 ```
