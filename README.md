@@ -80,8 +80,8 @@ The PDF file will be produced in the same directory as the HDF5 file.
 
 ## I/O Optimization (Darshan and Drishti findings)
 
-### Running I/O Optimization with Darshan (Interactively)
-
+### Running I/O Optimization with Darshan 
+#### Interactive
 If you want to run the darshan-instrumented script `larnd-sim_darshan.sh`, you can use the following steps (example interactive allocation, set a couple of environment variables, then run the script):
 
 ``` bash
@@ -95,6 +95,7 @@ export LARNDSIM_MAX_EVENTS=5
 
 The output file will show up in `$SCRATCH/larnd-sim-output`.
 
+#### Submit as sbatch job
 If you're running on the sran system (batch) the repository includes two helper scripts for a Darshan-instrumented run:
 
 - `sbatch_run_larndsim_2x2_darshan.sh`
@@ -113,7 +114,7 @@ sbatch sbatch_run_larndsim_2x2_sc25_darshan.sh develop
 
 Once the job completes you can post-process the Darshan logs and produce PDFs and Drishti input using the provided helper scripts. Examples:
 
-### 1) generate list / per-logfile PDFs
+### Generate list / per-logfile PDFs
 #### single logfiles
 ``` bash
 ./process_darshan_python3_perlog_pdf.sh <JobID> /pscratch/darshanlogs/yyyy/mm/dd
@@ -126,7 +127,7 @@ Once the job completes you can post-process the Darshan logs and produce PDFs an
 ./process_darshan_python3_logs_mergedPDF.sh <JobID> /pscratch/darshanlogs/yyyy/mm/dd
 ```
 
-### 2) run drishti using the list produced above
+### Run drishti using the list produced above
 ``` bash
 ./run_drishti_from_list.sh /pscratch/path/to/your/workdir/python3_logs_JOBID.list
 ```
