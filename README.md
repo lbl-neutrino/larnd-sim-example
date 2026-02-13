@@ -49,7 +49,7 @@ But the `shared` QOS typically will leave you waiting in the queue, while `inter
 Once you've got a GPU to yourself, launch the simulation:
 
 ``` bash
-./run.sh ./larnd-sim.sh
+./run.sh ./larnd-sim.sh or ./run.sh ./larnd-sim.sh
 ```
 
 The output file will show up in `$SCRATCH/larnd-sim-output`.
@@ -78,6 +78,23 @@ You can also produce a PDF of validation plots as follows:
 ```
 
 The PDF file will be produced in the same directory as the HDF5 file.
+
+## Submitting batch jobs
+
+Simulation can also be run through the Slurm batch system instead of interactively.  
+This is useful for running on specific branches (e.g., `develop`) or queueing multiple jobs.
+
+To submit a job using the `develop` branch:
+
+```
+sbatch sbatch_larndsim_ndlarlight.sh develop
+```
+### Note for NESAP 2026
+
+All output files and the corresponding input files are also saved in the DUNE Perlmutter working space for future reference.
+```
+/global/cfs/cdirs/dune/users/madan12/DUNE_nesap/nesap2026_ndlar_benchmark/
+```
 
 ## Running miniapps
 

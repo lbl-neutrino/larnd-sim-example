@@ -23,7 +23,7 @@ mapfile -t file_names < /pscratch/sd/m/madan12/DUNE/Nesap_2026/larnd-sim-example
 # export LARNDSIM_PIXEL_BATCH_SIZE="20000" # Or "800", "1600", "2400", "3200"
 
 # Define directories for output
-export out_dir=/pscratch/sd/m/madan12/DUNE/Nesap_2026/output_mempool_disable
+out_dir=$SCRATCH/larnd-sim-output-mempool-disable
 #export out_dir="/pscratch/sd/m/madan12/DUNE/pixel_sub_batching/output_pixel_subbatching_FSD_${LARNDSIM_PIXEL_BATCH_SIZE}bs"
 mkdir -p "$out_dir"
 

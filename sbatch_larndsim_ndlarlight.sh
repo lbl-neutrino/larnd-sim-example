@@ -34,7 +34,7 @@ fi
 branch_name=$1
 
 # Git commands to pull the appropriate branch
-cd /pscratch/sd/m/madan12/DUNE/Nesap_2026/larnd-sim-example/larnd-sim
+cd /larnd-sim
 git fetch origin
 git checkout $branch_name
 git pull origin $branch_name

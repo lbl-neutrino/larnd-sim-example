@@ -24,7 +24,7 @@ fi
 now=$(date -u +%Y%m%dT%H%M%SZ)
 
 out_file=$(basename "$in_file" .hdf5 | sed 's/convert2h5/larnd/' | sed 's/.EDEPSIM//')."$now".LARNDSIM.hdf5
-out_dir=/pscratch/sd/m/madan12/DUNE/Nesap_2026/larnd-sim-example/output
+out_dir=$SCRATCH/larnd-sim-output
 run_dir=$(date +"%Y-%m-%d_%H-%M")
 run_dir_path="$out_dir/$run_dir"
 mkdir -p "$run_dir_path"
