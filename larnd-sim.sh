@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
-default_in_file="/global/cfs/cdirs/dune/www/data/2x2/simulation/productions/MiniRun5_1E19_RHC/MiniRun5_1E19_RHC.convert2h5/EDEPSIM_H5/0000000/MiniRun5_1E19_RHC.convert2h5.0000123.EDEPSIM.hdf5"
-default_config="2x2"
+# default_in_file="/global/cfs/cdirs/dune/www/data/2x2/simulation/productions/MiniRun5_1E19_RHC/MiniRun5_1E19_RHC.convert2h5/EDEPSIM_H5/0000000/MiniRun5_1E19_RHC.convert2h5.0000123.EDEPSIM.hdf5"
+# default_config="2x2"
+
+default_in_file="/dvs_ro/cfs/cdirs/dunepro/people/abooth/nd-production/output/MiniProdN5/run-convert2h5/MiniProdN5p1_NDComplex_FHC.convert2h5.full.sanddrift/EDEPSIM_H5/0000000/MiniProdN5p1_NDComplex_FHC.convert2h5.full.sanddrift.0000251.EDEPSIM.hdf5"
+
+default_config="ndlar_light"
 
 # allow custom input file to be passed via command line
 in_file=${LARNDSIM_INPUT_FILE:-$default_in_file}
