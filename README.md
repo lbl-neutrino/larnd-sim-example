@@ -70,18 +70,6 @@ The following environment variables can be used:
 
 Another parameter of interest is the `BATCH_SIZE` variable in the simulation properties file (e.g. `larnd-sim/larndsim/simulation_properties/2x2_NuMI_sim.yaml`). A smaller batch size can reduce peak memory usage but may degrade the realism of the simulation.
 
-## Validating the output
-
-Run `larnd-sim/cli/compare_files.py` to compare the simulation's output to a known good output. Good for verifying that any refactoring or optimization hasn't affected the output.
-
-You can also produce a PDF of validation plots as follows:
-
-```
-./make_plots.sh /path/to/output.hdf5
-```
-
-The PDF file will be produced in the same directory as the HDF5 file.
-
 ## Submitting batch jobs
 
 Simulation can also be run through the Slurm batch system instead of interactively.  
@@ -98,6 +86,17 @@ All output files and the corresponding input files are also saved in the DUNE Pe
 ```
 /global/cfs/cdirs/dune/users/madan12/DUNE_nesap/nesap2026_ndlar_benchmark/
 ```
+## Validating the output
+
+Run `larnd-sim/cli/compare_files.py` to compare the simulation's output to a known good output. Good for verifying that any refactoring or optimization hasn't affected the output.
+
+You can also produce a PDF of validation plots as follows:
+
+```
+./make_plots.sh /path/to/output.hdf5
+```
+
+The PDF file will be produced in the same directory as the HDF5 file.
 
 ## Running miniapps
 
