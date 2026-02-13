@@ -48,10 +48,13 @@ But the `shared` QOS typically will leave you waiting in the queue, while `inter
 
 Once you've got a GPU to yourself, launch the simulation:
 
-``` bash
-./run.sh ./larnd-sim.sh or ./run.sh ./larnd-sim.sh
 ```
-
+./run.sh ./larnd-sim.sh
+```
+ or 
+ ```
+ ./run.sh ./larnd-sim.sh
+```
 The output file will show up in `$SCRATCH/larnd-sim-output`.
 
 ### Controlling the run
