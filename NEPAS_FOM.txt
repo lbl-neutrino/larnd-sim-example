@@ -1,0 +1,15 @@
+Ran the benchmarking for the larnd-sim, using the same input file, one task per node (interactively), and ran the job for 4 times.
+It came with
+
+Mean	12811.81
+stdev	12.51
+
+The FOM equation is defined as
+Total number of GPU-node-hours needed to process N events (feedback: events/node hour)So basically
+node-hr/event = (12811.81/3600)/13 = 0.27 node-hr/event
+Then for N events:
+total node-hr≈0.27 N
+--
+So for the GPU-node-hours
+We just need to divide by a further factor of 4 to account for the multiple GPUs on each node.
+So we have 0.27 GPU-hr/event = 0.0675 node-hr/event (Thanks, Matt).
