@@ -24,7 +24,7 @@ fi
 now=$(date -u +%Y%m%dT%H%M%SZ)
 
 out_file=$(basename "$in_file" .hdf5 | sed 's/convert2h5/larnd/' | sed 's/.EDEPSIM//')."$now".LARNDSIM.hdf5
-out_dir=$SCRATCH/larnd-sim-output
+out_dir=/pscratch/sd/m/madan12/DUNE/Nesap_2026/larnd-sim-example/output
 run_dir=$(date +"%Y-%m-%d_%H-%M")
 run_dir_path="$out_dir/$run_dir"
 mkdir -p "$run_dir_path"
@@ -42,6 +42,17 @@ job_id=${SLURM_JOB_ID:-"N/A"}
 echo "Processing file: $in_file, Simulation #$run_dir, Sim Start Time: $sim_start_time, Task Start Time: $timestamp, Random Seed: $rand_seed, Host Name: $host_name, File index: $file_index, Job ID: $job_id, Log File: $run_dir_path/$log_file, Output File: $run_dir_path/$out_file, Uptime: $(uptime)" | tee -a "$run_dir_path/$log_file"
 echo "File: $run_dir_path/$out_file" | tee -a "$run_dir_path/$log_file"
 
+# Function to log GPU memory information to a separate file
+function log_gpu_memory {
+    log_file=$1
+    gpu_mem_log="${log_file%.log}.gpu_mem.log"
+    echo "GPU and Memory Info:" > "$gpu_mem_log"
+    nohup nvidia-smi --query-gpu=memory.total,memory.free,memory.used,gpu_uuid --format=csv --loop-ms=5000 >> "$gpu_mem_log" 2>&1 &
+    echo $!  # Return the PID of the nohup process
+}
+
+# Log GPU memory before the simulation to a separate file
+gpu_mem_pid=$(log_gpu_memory "$run_dir_path/$log_file")
 
 # Prevent errors when multiple larnd-sims try to read the same input
 export HDF5_USE_FILE_LOCKING=0
