@@ -11,9 +11,10 @@ Our case:
 N=13 events, G=4 GPUs, Nodes=1, T_wall = 12811.81 s ≈ 3.558 h
 
 node-hr/event = 3.558/13 = 0.27 node-hr/event
-Then for N events:
-total node-hr≈0.27 N
 
+Final from Matt:
+There were 13 events per process (i.e. per GPU), and there were 4 processes (one per GPU), so there were actually 52 events, and the FOM would then be 3.558 / 52 = 0.0684 node-hours/event, if I understand correctly
+(It's true that there were only 13 unique events, since all four processes were given the same input file. But imagine if each process received a unique input file. The resulting FOM should end up very similar to 3.558/52.
 ---------------------------------------
 Discussion:
 
