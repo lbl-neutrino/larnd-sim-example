@@ -3,13 +3,42 @@ It came with
 
 Mean	12811.81
 stdev	12.51
-
+---------------------------------------
 The FOM equation is defined as
 Total number of GPU-node-hours needed to process N events (feedback: events/node hour)So basically
-node-hr/event = (12811.81/3600)/13 = 0.27 node-hr/event
+
+Our case:
+N=13 events, G=4 GPUs, Nodes=1, T_wall = 12811.81 s ≈ 3.558 h
+
+node-hr/event = 3.558/13 = 0.27 node-hr/event
 Then for N events:
 total node-hr≈0.27 N
---
-So for the GPU-node-hours
-We just need to divide by a further factor of 4 to account for the multiple GPUs on each node.
-So we have 0.27 GPU-hr/event = 0.0675 node-hr/event.
+
+---------------------------------------
+Discussion:
+
+Do not divide GPU-hours by 4 to get per-event metrics. If you use 4 GPUs in parallel, the total GPU-hours is G × T_wall, not (G/4) × T_wall.
+Use end-to-end (wall-clock) runtime T_wall for the job, and count how many GPUs (G) and nodes (Nodes) were actually used.
+
+So, some formulas:
+
+Node-hours per event = (Nodes × T_wall) / N
+GPU-hours per event = (G × T_wall) / N
+Total GPU-hours for the run = G × T_wall
+
+Our run: N=13 events, G=4 GPUs, Nodes=1, T_wall = 12811.81 s ≈ 3.558 h
+
+Total GPU-hours: 4 × 3.558 ≈ 14.232 GPU-hours
+GPU-hours per event: 14.232 / 13 ≈ 1.095 GPU-hours/event
+Total node-hours: 1 × 3.558 ≈ 3.558 node-hours
+Node-hours per event: 3.558 / 13 ≈ 0.274 node-hours/event (FOM number)
+End-to-end wall time: 3.558 h
+
+---
+Also (maybe not needed)
+Aggregate across 4 identical runs (N total = 52 events)
+
+Total GPU-hours: 4 × 14.232 ≈ 56.928 GPU-hours
+GPU-hours per event (aggregate): 56.928 / 52 ≈ 1.095 GPU-hours/event
+Total node-hours: 4 × 3.558 ≈ 14.232 node-hours
+Node-hours per event (aggregate): 14.232 / 52 ≈ 0.274 node-hours/event (FOM number)
