@@ -80,6 +80,25 @@ To submit a job using the `develop` branch:
 ```
 sbatch sbatch_larndsim_ndlarlight.sh develop
 ```
+## FOM
+
+**Setup:** 1 node (interactive), 4 GPUs, 13 events/GPU → 52 total events, 4 runs
+
+Each GPU processed 13 events (same input file across 4 GPUs) therefore total events is 52. 
+
+**Wall Time Stats:**
+
+| Metric | Value |
+|--------|-------|
+| Mean   | 12,811.81 s ≈ 3.558 hrs |
+| Stdev  | 12.51 s |
+
+---
+
+**FOM Definition:** GPU-node-hours needed to process N events  
+
+So 3.558 / 52 = **0.0684 node-hrs/event**
+
 ### Note for NESAP 2026
 
 All output files and the corresponding input files are also saved in the DUNE Perlmutter working space for future reference.
