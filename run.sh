@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
+set -o errexit
 source setup.inc.sh
-
 source "$venv_name/bin/activate"
 
 nsys=/global/common/software/dune/mkramer/misc_software/nsight-systems-2023.4.1/bin/nsys
