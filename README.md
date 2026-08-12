@@ -25,15 +25,22 @@ This will locally clone `larnd-sim` and create a Python virtual environment `lar
 
 The scripts attempt to use the `CUDA_HOME` environment variable to detect the CUDA version, and then install the appropriate version of `cupy` (e.g. `cupy-cuda12x` for CUDA 12). To explicitly set the major version, do e.g. `export LARNDSIM_CUDA_VERSION=12`. The virtual environment will be named according to the CUDA version (e.g. `larnd-sim.cuda12.venv`). If you want to try a different CUDA version, you can load CUDA and then re-run the installer to create the venv.
 
-## The wrapper script
+## Helper/wrapper tools
 
-For convenience, we wrap all invocations of the simulation and miniapps in the `run.sh` wrapper script, which takes care of environment setup, profiling, etc.
+For convenience, there are two helpers/wrappers for running larnd-sim and crafting the command line arguments.
+
+The first is the `run.sh` wrapper Bash script, which takes care of environment setup, profiling, etc. for invoking different configurations of larnd-sim (which are then encoded in another script).
+
+The second is the newer CLI interface built-in to larnd-sim called `lar_runner.py`. A couple example YAML configurations are in `configs/` and see the section [here](https://cuddandr.github.io/ndsim-mdbook/larndsim.html) for more details on using the tool.
 
 ## Running the full simulation
 
-It's a good idea to grab a dedicated 80GB GPU:
+It's a good idea to grab a dedicated GPU node:
 
 ``` bash
+# 40 GB A100
+salloc -A dune -q interactive -C 'gpu' -t 30
+# 80 GB A100
 salloc -A dune -q interactive -C 'gpu&hbm80g' -t 30
 ```
 
@@ -41,20 +48,25 @@ salloc -A dune -q interactive -C 'gpu&hbm80g' -t 30
 
 
 ``` bash
-salloc -q shared -C 'gpu&hbm80g' -t 30 --gpus-per-task 1 --ntasks 1 -A dune_g
+salloc -q shared -C 'gpu&hbm80g' -t 30 --gpus-per-task 1 --ntasks 1 -A dune
 ```
 
-But the `shared` QOS typically will leave you waiting in the queue, while `interactive` is usually nearly instant.
+But the `shared` QOS typically will leave you waiting in the queue, while `interactive` is usually nearly instant. If using another allocation (e.g. a Hackathon allocation), specify it instead of `dune` for the `-A` flag.
 
 Once you've got a GPU to yourself, launch the simulation:
 
+Using the Bash script:
 ``` bash
 ./run.sh ./larnd-sim.sh
 ```
+Using `lar_runner.py`:
+```bash
+lar_runner.py -y /path/to/config.yaml run
+```
 
-The output file will show up in `$SCRATCH/larnd-sim-output`.
+The output file will show up in `$SCRATCH/larnd-sim-output` (for the Bash script) or in the output directory specified by the runner YAML configuration.
 
-### Controlling the run
+### Controlling the run (the Bash script)
 
 The following environment variables can be used:
 
@@ -67,6 +79,12 @@ The following environment variables can be used:
 
 Another parameter of interest is the `BATCH_SIZE` variable in the simulation properties file (e.g. `larnd-sim/larndsim/simulation_properties/2x2_NuMI_sim.yaml`). A smaller batch size can reduce peak memory usage but may degrade the realism of the simulation.
 
+### Controlling the run (lar_runner)
+
+The `lar_runner.py` tool uses a YAML configuration file and default options to control the simulation. Running `-h/--help` for the tool or any of its subcommands will print the usage documenation.
+
+A couple example YAML configurations are in `configs/` and can be edited to specify the input file, number of events, profiling settings, etc. It does not contain a specific option for every parameter that larnd-sim supports, but supports an `--args` flag to pass any extra parameters to larnd-sim or the profiling tools.
+
 ## Validating the output
 
 Run `larnd-sim/cli/compare_files.py` to compare the simulation's output to a known good output. Good for verifying that any refactoring or optimization hasn't affected the output.
@@ -78,51 +96,6 @@ You can also produce a PDF of validation plots as follows:
 ```
 
 The PDF file will be produced in the same directory as the HDF5 file.
-
-## Running miniapps
-
-The `hackathon2024` branch of larnd-sim includes miniapps for three of the most demanding kernels in the simulation; see `larnd-sim/miniapps`.
-
-### Producing miniapp inputs
-
-The following environment variables will cause larnd-sim to dump the kernel's input arrays to a pickle file (and then exit).
-
-- `LARNDSIM_DUMP4MINIAPP_CALC_LIGHT_DET_RESPONSE`
-- `LARNDSIM_DUMP4MINIAPP_GET_ADC_VALUES`
-- `LARNDSIM_DUMP4MINIAPP_TRACKS_CURRENT_MC`
-
-
-Each of these miniapps supports the option `--output-file`, which can be used to specify the name of a pickle file for the output of the (first run of the) kernel. These outputs can be compared using `larnd-sim/cli/compare_miniapp_output.py`.
-
-### `calc_light_det_response`
-
-This kernel takes up some 50% of the runtime in a nominal simulation.
-
-``` bash
-./run.sh larnd-sim/miniapps/calc_light_det_response.py
-```
-
-Performance baseline: 940 ms
-
-### `get_adc_values`
-
-This one takes up about 25%.
-
-``` bash
-./run.sh larnd-sim/miniapps/get_adc_values.py
-```
-
-Performance baseline: 490 ms
-
-### `tracks_current_mc`
-
-This one's about 10%. (Note: The miniapp is running faster than expected. Need to verify that inputs are representative of the full simulation.)
-
-``` bash
-./run.sh larnd-sim/miniapps/tracks_current_mc.py
-```
-
-Performance baseline: 5 ms (not to be trusted)
 
 ## Using the profiling output
 
@@ -137,3 +110,7 @@ The output (an `nsys-rep` file) can be opened with `nsys-ui` from Nsight Systems
 ### Nsight Compute
 
 The output (an `ncu-rep` file) can be opened with `ncu-ui` from Nsight Compute 2024.1.
+
+## Running miniapps (deprecated)
+
+The `hackathon2024` branch of larnd-sim includes miniapps for three of the most demanding kernels in the simulation; see `larnd-sim/miniapps` and the README on that branch.

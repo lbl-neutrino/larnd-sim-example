@@ -1,0 +1,27 @@
+larnd-sim:
+  config: "2x2"
+  input_file: "/global/cfs/cdirs/dune/www/data/2x2/simulation/productions/MiniRun5_1E19_RHC/MiniRun5_1E19_RHC.convert2h5/EDEPSIM_H5/0000000/MiniRun5_1E19_RHC.convert2h5.0000123.EDEPSIM.hdf5"
+  output_file: "2x2_larnd_sim_output.hdf5"
+  output_dir: "output/2x2"
+  rng_seed: 321
+  compression: 'lzf'
+  n_events: 25
+
+nsys:
+  exec: "/global/cfs/projectdirs/dune/users/cuddandr/packages/nsight-systems-2026.3.1/bin/nsys"
+  output_dir: "profiles/nsys"
+  output_file: "2x2_larnd_sim.profile"
+
+ncu:
+  exec: "/global/cfs/projectdirs/dune/users/cuddandr/packages/nsight-compute-2026.2/ncu"
+  kernels: ["calc_light_detector_response"] #list of kernels to profile
+  output_dir: "profiles/ncu"
+  output_file: "2x2_larnd_sim.profile"
+
+compare:
+  reference: "larnd-sim-reference.hdf5"
+
+report:
+  report: "nvtx_sum"
+  timeunit: "ms"
+  format: "csv"

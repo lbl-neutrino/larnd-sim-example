@@ -1,0 +1,28 @@
+larnd-sim:
+  config: "fsd"
+  input_file: "/global/cfs/projectdirs/dune/www/data/FSD/simulation/FSD_CosmicRun3/run-convert2h5/FSD_CosmicRun3.convert2h5/EDEPSIM_H5/0000000/FSD_CosmicRun3.convert2h5.0000000.EDEPSIM.hdf5"
+  output_dir: "output/fsd"
+  output_file: "fsd_larnd_sim_output.hdf5"
+  rng_seed: 321
+  compression: 'lzf'
+  n_events: 100
+
+nsys:
+  exec: "/global/cfs/projectdirs/dune/users/cuddandr/packages/nsight-systems-2026.3.1/bin/nsys"
+  output_dir: "profiles/nsys"
+  output_file: "fsd_larnd_sim.profile"
+
+ncu:
+  exec: "/global/cfs/projectdirs/dune/users/cuddandr/packages/nsight-compute-2026.2/ncu"
+  kernels: ["get_adc_values"]
+  invocation: 30
+  output_dir: "profiles/ncu"
+  output_file: "fsd_larnd_sim.profile"
+
+compare:
+  reference: "larnd-sim-reference.hdf5"
+
+report:
+  report: "nvtx_sum"
+  timeunit: "ms"
+  format: "csv"

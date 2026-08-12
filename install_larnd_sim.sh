@@ -15,5 +15,6 @@ if [[ ! -d larnd-sim ]]; then
     git clone -b develop https://github.com/DUNE/larnd-sim
 fi
 
+# Install larnd-sim and the optional dependicies for lar_runner
 cd larnd-sim
-pip install -e .
+pip install -e .[runner]
